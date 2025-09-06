@@ -1,5 +1,5 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import MonitorBG from '../components/MonitorBG';
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -7,5 +7,22 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<Welcome />
+    <div class="container">
+        <MonitorBG client:only="react">
+            <Fragment slot="fallback">
+            </Fragment>
+        </MonitorBG>
+    </div>
 </Layout>
+
+<style>
+    .container {
+        width: 100%;
+        height: 100%;
+        background-color: #222222;
+        opacity: 1;
+        background-image: radial-gradient(#333333 2px, transparent 2px), radial-gradient(#333333 2px, #222222 2px);
+        background-size: 80px 80px;
+        background-position: 0 0, 40px 40px;
+    }
+</style>
