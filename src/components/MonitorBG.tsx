@@ -1,7 +1,7 @@
-import {Canvas, useThree} from "@react-three/fiber";
+import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import {Radio} from "./Radio.tsx";
 import {CameraShake, ContactShadows, Html} from "@react-three/drei";
-import {useState} from "react";
+import {type ReactNode, useState} from "react";
 import * as THREE from "three";
 import {DoubleSide} from "three";
 
@@ -13,7 +13,8 @@ export default function MonitorBG() {
             <directionalLight castShadow intensity={4} shadow-mapSize={2048} position={[0, 0, 0]} rotation={[-1, 0, 0]}/>
             <ambientLight intensity={1.5}/>
             <Radio position={[0, -1, 0]} scale={2}/>
-            <Html transform occlude castShadow receiveShadow scale={.2} position={[2, -.5, 0]} rotation={[.2,0,0]} material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
+            <Html transform castShadow receiveShadow scale={.2} position={[2, -.5, 0]} rotation={[.2,0,0]}
+                  material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
                 <Card/>
             </Html>
             <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={3} far={10} resolution={256} color="#000000"/>
@@ -25,8 +26,8 @@ export default function MonitorBG() {
 
 const Rig = () => {
     const [vec] = useState(() => new THREE.Vector3())
-    const {camera, mouse} = useThree()
-    // useFrame(() => camera.position.lerp(vec.set(mouse.x * CAM_DISTANCE / 10, CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
+    const {camera, pointer} = useThree()
+    // useFrame(() => camera.position.lerp(vec.set(pointer.x * CAM_DISTANCE / 10, CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
     return <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
 }
 
@@ -35,12 +36,65 @@ const Card = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: 20,
-        borderRadius: 20,
-        background:"white"
+        borderRadius: 8,
+        background:"white",
+        overflow:"hidden",
+        width: 300,
+        position: "relative",
     }}>
-        <h2 style={{margin: 0, marginBottom:12}}>Hello! I'm chamchi.</h2>
-        <h3 style={{margin: 0}}>I develop websites and games.</h3>
-        <h3 style={{margin: 0}}>I like to code with Typescript, React</h3>
+        <div style={{width: "100%", height: 120, backgroundImage: "url('/images/belle.png')", backgroundSize: "cover", backgroundPosition: "right 50% bottom 92%"}}/>
+        <div style={{backgroundImage: "url('/images/bangboo.png')", backgroundSize: "cover", backgroundPosition: "center", position: "absolute", borderRadius: "50%", width: 80, height: 80, left: 12, top: 80}}/>
+        <QuickLinks/>
+        <div style={{display: "flex", flexDirection: "column", padding: "56px 12px 16px 12px", background: "#ededed", width: "100%", gap: 16}}>
+            <div style={{display: "flex", flexDirection: "column", gap: 4}}>
+                <span style={{fontSize: 22}}>Chamchi</span>
+                <span style={{fontSize: 14, color: "#333"}}>Jiwon Choi ∙ He/Him</span>
+            </div>
+            <span style={{fontSize: 16}}>I do web frontend / gamedev</span>
+            <div style={{display: "flex", flexDirection: "row", gap: 6, flexWrap: "wrap"}}>
+                <Tag icon={"/images/unity.svg"} text={"Unity"}/>
+                <Tag icon={"/images/react.svg"} text={"React"}/>
+                <Tag icon={"/images/typescript.svg"} text={"TS"}/>
+                <Tag icon={"/images/webgl.svg"} text={"WebGL"}/>
+            </div>
+        </div>
+    </div>
+}
+
+const QuickLinks = () => {
+    return <div style={{
+        position: "absolute", right: 8, top: 128,
+        background: "#cccccc99", border: "2px solid #ccc", padding: "4px", borderRadius: 8, display: "flex", flexDirection: "row", alignItems: "center", gap: 4
+    }}>
+        <QuickLink link={"https://github.com/chamchi0809"} icon={"/images/github.svg"}/>
+        <QuickLink link={"https://seoshi1234.itch.io/"} icon={"/images/itchio.svg"}/>
+    </div>
+}
+
+const QuickLink = (
+    {
+        link,
+        icon,
+    }:{
+        link: string;
+        icon: string;
+    }) => {
+
+    return <div className={`rounded-md bg-center bg-cover w-5 h-5 cursor-pointer hover:bg-gray-400 `}
+                onClick={() => window.open(link, "_blank")}
+                style={{backgroundImage: `url('${icon}')`}}/>
+}
+
+const Tag = (
+    {
+        icon,
+        text,
+    }:{
+        icon: string;
+        text: string;
+    }) => {
+    return <div style={{fontSize: 16, background: "#cccccc99", border: "2px solid #ccc", padding: "4px 8px", borderRadius: 8, display: "flex", flexDirection: "row", alignItems: "center", gap: 4}}>
+        <img src={icon} alt="" width={16}/>
+        {text}
     </div>
 }
