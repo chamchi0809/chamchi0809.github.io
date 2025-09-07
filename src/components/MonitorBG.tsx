@@ -1,15 +1,17 @@
-import {Canvas} from "@react-three/fiber";
+import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import Videogame from "./Videogame.tsx";
 import {CameraShake, ContactShadows, Float, Html} from "@react-three/drei";
+import * as THREE from "three";
 import {DoubleSide} from "three";
+import {useState} from "react";
 
 const CAM_DISTANCE = 5;
 
 export default function MonitorBG() {
     return <div style={{position: "absolute", inset: 0}}>
-        <Canvas shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
+        <Canvas eventPrefix="client" shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
             <ambientLight color={"#dadacf"} intensity={1.2}/>
-            <Float rotationIntensity={1} speed={3}>
+            <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
                 <Videogame position={[-1, -1, 0]} rotation={[.2, 0, 0]} scale={.25}/>
                 <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, 0, 0]} rotation={[.2, 0, 0]}
                       material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
@@ -24,6 +26,9 @@ export default function MonitorBG() {
 }
 
 const Rig = () => {
+    const [vec] = useState(() => new THREE.Vector3());
+    const {camera, pointer} = useThree();
+    useFrame(() => camera.position.lerp(vec.set(pointer.x * CAM_DISTANCE / 10, pointer.y * CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
     return <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
 }
 
