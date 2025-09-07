@@ -27,9 +27,6 @@ export default function MonitorBG() {
 }
 
 const Rig = () => {
-    const [vec] = useState(() => new THREE.Vector3())
-    const {camera, pointer} = useThree()
-    // useFrame(() => camera.position.lerp(vec.set(pointer.x * CAM_DISTANCE / 10, CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
     return <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
 }
 
@@ -44,8 +41,8 @@ const Card = () => {
         width: 300,
         position: "relative",
     }}>
-        <div style={{width: "100%", height: 120, backgroundImage: "url('/images/belle.png')", backgroundSize: "cover", backgroundPosition: "right 50% bottom 92%"}}/>
-        <div style={{backgroundImage: "url('/images/bangboo.png')", backgroundSize: "cover", backgroundPosition: "center", position: "absolute", borderRadius: "50%", width: 80, height: 80, left: 12, top: 80}}/>
+        <div style={{width: "100%", height: 120, backgroundImage: "url('/images/anvy.png')", backgroundSize: "cover", backgroundPosition: "right 50% bottom 100%"}}/>
+        <div style={{backgroundImage: "url('/images/anvy_profile.png')", backgroundSize: "cover", backgroundPosition: "center", position: "absolute", borderRadius: "50%", width: 80, height: 80, left: 12, top: 80}}/>
         <QuickLinks/>
         <div style={{display: "flex", flexDirection: "column", padding: "56px 12px 16px 12px", background: "#ededed", width: "100%", gap: 16}}>
             <div style={{display: "flex", flexDirection: "column", gap: 4}}>
