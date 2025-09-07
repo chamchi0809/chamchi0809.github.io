@@ -13,8 +13,8 @@ export default function MonitorBG() {
             <directionalLight castShadow intensity={4} shadow-mapSize={2048} position={[0, 0, 0]} rotation={[-1, 0, 0]}/>
             <ambientLight intensity={1.2}/>
             <Float rotationIntensity={1} speed={3}>
-                <Videogame position={[-.8, -1, 0]} rotation={[.2, 0, 0]} scale={.2}/>
-                <Html occlude={"raycast"} transform castShadow receiveShadow scale={.2} position={[.8, 0, 0]} rotation={[.2, 0, 0]}
+                <Videogame position={[-1, -1, 0]} rotation={[.2, 0, 0]} scale={.25}/>
+                <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, 0, 0]} rotation={[.2, 0, 0]}
                       material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
                     <Card/>
                 </Html>
