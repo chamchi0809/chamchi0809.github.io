@@ -10,8 +10,7 @@ const CAM_DISTANCE = 5;
 export default function MonitorBG() {
     return <div style={{position: "absolute", inset: 0}}>
         <Canvas shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
-            <directionalLight castShadow intensity={4} shadow-mapSize={2048} position={[0, 0, 0]} rotation={[-1, 0, 0]}/>
-            <ambientLight intensity={1.2}/>
+            <ambientLight color={"#dadacf"} intensity={1.2}/>
             <Float rotationIntensity={1} speed={3}>
                 <Videogame position={[-1, -1, 0]} rotation={[.2, 0, 0]} scale={.25}/>
                 <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, 0, 0]} rotation={[.2, 0, 0]}
