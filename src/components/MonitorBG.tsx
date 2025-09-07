@@ -1,8 +1,6 @@
-import {Canvas, useThree} from "@react-three/fiber";
+import {Canvas} from "@react-three/fiber";
 import Videogame from "./Videogame.tsx";
 import {CameraShake, ContactShadows, Float, Html} from "@react-three/drei";
-import {useState} from "react";
-import * as THREE from "three";
 import {DoubleSide} from "three";
 
 const CAM_DISTANCE = 5;
