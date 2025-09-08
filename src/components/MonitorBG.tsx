@@ -40,12 +40,12 @@ const Card = () => {
             "absolute w-[80px] h-[80px] left-[12px] top-[80px]"}/>
         <QuickLinks/>
         <div className={"flex flex-col pt-[56px] px-[12px] pb-[16px] bg-bright w-full gap-[16px]"}>
-            <div style={{display: "flex", flexDirection: "column", gap: 4}}>
-                <span style={{fontSize: 22}}>Chamchi</span>
-                <span style={{fontSize: 14, color: "#333"}}>Jiwon Choi ∙ He/Him</span>
+            <div className={"flex flex-col gap-1"}>
+                <span className={"text-xl"}>Chamchi</span>
+                <span className={"text-sm text-gray-900"}>Jiwon Choi ∙ He/Him</span>
             </div>
-            <span style={{fontSize: 16}}>I do web frontend / gamedev</span>
-            <div style={{display: "flex", flexDirection: "row", gap: 6, flexWrap: "wrap"}}>
+            <span className={"text-lg"}>I do web frontend / gamedev</span>
+            <div className={"flex flex-row flex-wrap gap-1.5"}>
                 <Tag icon={"/images/unity.svg"} text={"Unity"}/>
                 <Tag icon={"/images/react.svg"} text={"React"}/>
                 <Tag icon={"/images/typescript.svg"} text={"TS"}/>
