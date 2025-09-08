@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
     <div class="w-full h-full relative">
-        <MonitorBG client:only="react">
+        <MonitorBG client:load>
             <Fragment slot="fallback">
                 <div class="w-full h-full text-bright text-3xl flex flex-col gap-2 justify-center items-center">
                     <div class="loader">
