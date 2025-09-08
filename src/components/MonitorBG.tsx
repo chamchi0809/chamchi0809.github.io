@@ -1,25 +1,27 @@
 import {Canvas, useFrame, useThree} from "@react-three/fiber";
 import GameBoy from "./GameBoy.tsx";
-import {CameraShake, ContactShadows, Float, Html} from "@react-three/drei";
+import {CameraShake, ContactShadows, Float, Html, useProgress} from "@react-three/drei";
 import * as THREE from "three";
 import {DoubleSide} from "three";
-import {useState} from "react";
+import {Suspense, useState} from "react";
 
 const CAM_DISTANCE = 5;
 
 export default function MonitorBG() {
     return <div style={{position: "absolute", inset: 0}}>
-        <Canvas eventPrefix="client" shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
-            <ambientLight color={"#dadacf"} intensity={1.2}/>
-            <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
-                <GameBoy position={[-1, -1, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
-                <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .3, 0]} rotation={[.2, 0, 0]}
-                      material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
-                    <Card/>
-                </Html>
-            </Float>
-            <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={1} far={10} resolution={256} color="#000000"/>
-            <Rig/>
+        <Canvas className={"animate-fadeIn"} eventPrefix="client" shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
+            <Suspense fallback={<Loader/>}>
+                <ambientLight color={"#dadacf"} intensity={1.2}/>
+                <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
+                    <GameBoy position={[-1, -1, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
+                    <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .3, 0]} rotation={[.2, 0, 0]}
+                          material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
+                        <Card/>
+                    </Html>
+                </Float>
+                <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={1} far={10} resolution={256} color="#000000"/>
+                <Rig/>
+            </Suspense>
         </Canvas>
     </div>
 }
@@ -90,4 +92,30 @@ const Tag = (
         <img src={icon} alt="" width={16}/>
         {text}
     </div>
+}
+
+function Loader() {
+    const { progress } = useProgress()
+    return <Html center>
+        <div
+            className="mx-auto w-[500px] h-[400px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl"
+        >
+            <div className="bg-[#333] flex items-center p-[5px] text-whitec relative">
+                <div className="flex absolute left-3">
+                    <span className="h-3.5 w-3.5 bg-[#ff5b50] rounded-xl mr-2"></span>
+                    <span className="h-3.5 w-3.5 bg-[#fbbc33] rounded-xl mr-2"></span>
+                    <span className="h-3.5 w-3.5 bg-[#21c940] rounded-xl"></span>
+                </div>
+                <div className="flex-1 text-center text-white">status</div>
+            </div>
+            <div className="p-2.5 text-bright text-xl">
+                <div>
+                    <span className="mr-2">{progress}% loaded</span>
+                    <span className="animate-[ping_1.5s_0.5s_ease-in-out_infinite]">.</span>
+                    <span className="animate-[ping_1.5s_0.7s_ease-in-out_infinite]">.</span>
+                    <span className="animate-[ping_1.5s_0.9s_ease-in-out_infinite]">.</span>
+                </div>
+            </div>
+        </div>
+    </Html>
 }
