@@ -1,5 +1,7 @@
 ---
-import GlobalStyles from "../components/GlobalStyles.astro";
+import "../assets/app.css";
+import SideNav from "../components/SideNav.astro";
+import {ClientRouter, slide} from "astro:transitions";
 ---
 <!doctype html>
 <html lang="en">
@@ -9,18 +11,36 @@ import GlobalStyles from "../components/GlobalStyles.astro";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
     <meta name="generator" content={Astro.generator}/>
     <title>Astro Basics</title>
+    <ClientRouter/>
 </head>
 <body>
-<GlobalStyles/>
-<slot/>
+<SideNav/>
+<main transition:animate={slide({duration: '0.4s'})}>
+    <slot/>
+</main>
 </body>
 </html>
 
 <style>
-    html,
-    body {
-        margin: 0;
+    html {
         width: 100%;
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        background-color: #222222;
+        opacity: 1;
+        background-image: linear-gradient(rgba(28, 28, 28, 0.64), rgba(28, 28, 28, 0.64)), url('/images/grid-top-right.svg'), linear-gradient(rgba(28, 28, 28, 0.24), rgba(28, 28, 28, 0.24));
+        background-position: center;
+        background-size: cover;
+    }
+
+    main {
+        flex: 1;
         height: 100%;
     }
 </style>
