@@ -8,8 +8,9 @@ import {Suspense, useState} from "react";
 const CAM_DISTANCE = 5;
 
 export default function MonitorBG() {
-    return <div style={{position: "absolute", inset: 0}}>
-        <Canvas className={"animate-fadeIn"} eventPrefix="client" shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
+
+    return <div className={"absolute inset-0"}>
+        <Canvas className={"animate-fadeIn"} resize={{debounce: 0}} eventPrefix={"client"} shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
             <Suspense fallback={<Loader/>}>
                 <ambientLight color={"#dadacf"} intensity={1.2}/>
                 <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
@@ -95,7 +96,7 @@ const Tag = (
 }
 
 function Loader() {
-    const { progress } = useProgress()
+    const {progress} = useProgress()
     return <Html center>
         <div
             className="mx-auto w-[500px] h-[400px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl"
