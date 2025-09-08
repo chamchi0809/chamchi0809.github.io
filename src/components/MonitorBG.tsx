@@ -81,7 +81,7 @@ const QuickLink = (
         icon: string;
     }) => {
 
-    return <div className={`rounded-md bg-center bg-cover w-5 h-5 cursor-pointer hover:bg-gray-400 `}
+    return <div className={`rounded-md bg-center bg-size-[16px] bg-no-repeat w-5 h-5 cursor-pointer hover:bg-gray-400 `}
                 onClick={() => window.open(link, "_blank")}
                 style={{backgroundImage: `url('${icon}')`}}/>
 }
