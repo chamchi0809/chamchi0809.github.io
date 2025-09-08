@@ -3,16 +3,18 @@ import {type Icon as IconType, House, Cog} from "@lucide/astro";
 interface Props {
     pathname: string;
     label: string;
-    icon: IconType; // You can specify a more precise type if needed
+    icon: IconType;
 }
 
 const {pathname, label, icon} = Astro.props;
+
+const active = pathname === Astro.url.pathname.replace(/\/+$/, '');
 ---
 
 <a href={pathname} class=`p-3 flex flex-row items-center gap-3 cursor-pointer rounded-full text-bright select-none transition-all
 hover:bg-bright hover:text-gray-950
 active:scale-105
-${pathname === Astro.url.pathname && 'bg-bright text-gray-950'}`>
+${active && 'bg-bright text-gray-950'}`>
     <slot/>
     <span>{label}</span>
 </a>
