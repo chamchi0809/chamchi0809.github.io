@@ -11,18 +11,18 @@ export default function IndexCanvas() {
 
     return <div className={"absolute inset-0 z-50"}>
         <Canvas className={"animate-fadeIn"} resize={{debounce: 0}} eventPrefix={"client"} shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
-            <Suspense fallback={<Loader/>}>
-                <ambientLight color={"#dadacf"} intensity={1.2}/>
-                <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
+            <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
+                <Suspense fallback={<Loader/>}>
                     <GameBoy position={[-1, -1, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
                     <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .3, 0]} rotation={[.2, 0, 0]}
                           material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
                         <Card/>
                     </Html>
-                </Float>
-                <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={1} far={10} resolution={256} color="#000000"/>
-                <Rig/>
-            </Suspense>
+                </Suspense>
+            </Float>
+            <ambientLight color={"#dadacf"} intensity={1.2}/>
+            <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={.5} far={10} resolution={256} color="#000000"/>
+            <Rig/>
         </Canvas>
     </div>
 }
@@ -97,9 +97,9 @@ const Tag = (
 
 function Loader() {
     const {progress} = useProgress()
-    return <Html center>
+    return <Html occlude={"raycast"} transform center scale={0.25}>
         <div
-            className="mx-auto w-[500px] h-[400px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl"
+            className="mx-auto w-[500px] h-[200px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl"
         >
             <div className="bg-[#333] flex items-center p-[5px] text-whitec relative">
                 <div className="flex absolute left-3">
@@ -109,7 +109,7 @@ function Loader() {
                 </div>
                 <div className="flex-1 text-center text-white">status</div>
             </div>
-            <div className="p-2.5 text-bright text-xl">
+            <div className="text-bright text-3xl font-bold flex flex-col items-center justify-center h-[150px]">
                 <div>
                     <span className="mr-2">{progress}% loaded</span>
                     <span className="animate-[ping_1.5s_0.5s_ease-in-out_infinite]">.</span>
