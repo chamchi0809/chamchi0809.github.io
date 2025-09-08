@@ -32,8 +32,10 @@ const menuItems: MenuItem[] = [
             <p class="text-bright text-sm">Frontend Developer</p>
         </div>
     </div>
-    {menuItems.map(item =>
+    <div class="flex flex-col gap-3">
+        {menuItems.map(item =>
             <SideNavItem icon={item.icon} label={item.name} pathname={item.pathname}>
                 <item.icon/>
             </SideNavItem>)}
+    </div>
 </div>
