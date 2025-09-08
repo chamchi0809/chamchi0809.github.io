@@ -42,9 +42,9 @@ const Card = () => {
         <div className={"flex flex-col pt-[56px] px-[12px] pb-[16px] bg-bright w-full gap-[16px]"}>
             <div className={"flex flex-col gap-1"}>
                 <span className={"text-xl"}>Chamchi</span>
-                <span className={"text-sm text-gray-900"}>Jiwon Choi ∙ He/Him</span>
+                <span className={"text-sm text-gray-900"}>Jiwon Choi ∙ 🇰🇷 ∙ He/Him</span>
             </div>
-            <span className={"text-lg"}>I do web frontend / gamedev</span>
+            <span className={"text-lg"}>Working as web dev / Game dev hobbyist</span>
             <div className={"flex flex-row flex-wrap gap-1.5"}>
                 <Tag icon={"/images/unity.svg"} text={"Unity"}/>
                 <Tag icon={"/images/react.svg"} text={"React"}/>
