@@ -33,20 +33,13 @@ const Rig = () => {
 }
 
 const Card = () => {
-    return <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        borderRadius: 8,
-        background: "white",
-        overflow: "hidden",
-        width: 300,
-        position: "relative",
-    }}>
-        <div style={{width: "100%", height: 120, backgroundImage: "url('/images/anvy.png')", backgroundSize: "cover", backgroundPosition: "right 50% bottom 100%"}}/>
-        <div style={{backgroundImage: "url('/images/anvy_profile.png')", backgroundSize: "cover", backgroundPosition: "center", position: "absolute", borderRadius: "50%", width: 80, height: 80, left: 12, top: 80}}/>
+    return <div className={"flex flex-col items-center relative rounded-[8px] bg-bright w-[300px] overflow-hidden"}>
+        <div className={"w-full h-[120px] bg-[url(/images/anvy.png)] bg-cover bg-top"}/>
+        <div className={"bg-[url(/images/anvy_profile.png)] bg-cover bg-center " +
+            "rounded-full " +
+            "absolute w-[80px] h-[80px] left-[12px] top-[80px]"}/>
         <QuickLinks/>
-        <div style={{display: "flex", flexDirection: "column", padding: "56px 12px 16px 12px", background: "#dadacf", width: "100%", gap: 16}}>
+        <div className={"flex flex-col pt-[56px] px-[12px] pb-[16px] bg-bright w-full gap-[16px]"}>
             <div style={{display: "flex", flexDirection: "column", gap: 4}}>
                 <span style={{fontSize: 22}}>Chamchi</span>
                 <span style={{fontSize: 14, color: "#333"}}>Jiwon Choi ∙ He/Him</span>
