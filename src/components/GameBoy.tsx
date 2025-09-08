@@ -5,8 +5,8 @@ Files: public/models/GameBoy.glb [2.67MB] > C:\Users\User\IdeaProjects\blog\src\
 */
 
 import * as THREE from 'three'
-import React, {type JSX} from 'react'
-import {useGLTF} from '@react-three/drei'
+import React, {type JSX, useState} from 'react'
+import {useCursor, useGLTF} from '@react-three/drei'
 import {type GLTF} from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -28,13 +28,41 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
     return (
         <group {...props} dispose={null}>
             <mesh castShadow receiveShadow geometry={nodes.GameBoy.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <mesh castShadow receiveShadow geometry={nodes.A.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <mesh castShadow receiveShadow geometry={nodes.B.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <mesh castShadow receiveShadow geometry={nodes['+'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <mesh castShadow receiveShadow geometry={nodes['2'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <mesh castShadow receiveShadow geometry={nodes['1'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            <Button>
+                <mesh castShadow receiveShadow geometry={nodes.A.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </Button>
+            <Button>
+                <mesh castShadow receiveShadow geometry={nodes.B.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </Button>
+            <group>
+                <mesh castShadow receiveShadow geometry={nodes['+'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </group>
+            <Button>
+                <mesh castShadow receiveShadow geometry={nodes['2'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </Button>
+            <Button>
+                <mesh castShadow receiveShadow geometry={nodes['1'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </Button>
         </group>
     )
 }
 
 useGLTF.preload('/models/GameBoy-transformed.glb')
+
+const Button = ({children}: { children: React.ReactNode }) => {
+    const [hovered, setHovered] = useState(false);
+    const [clicked, setClicked] = useState(false);
+    useCursor(hovered)
+    return <group
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => {
+            setHovered(false);
+            setClicked(false);
+        }}
+        onPointerDown={() => setClicked(true)}
+        onPointerUp={() => setClicked(false)}
+        position={clicked ? [0, 0, -0.15] : [0, 0, 0]}
+    >
+        {children}
+    </group>
+}
