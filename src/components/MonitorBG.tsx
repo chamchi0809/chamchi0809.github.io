@@ -1,5 +1,5 @@
 import {Canvas, useFrame, useThree} from "@react-three/fiber";
-import Videogame from "./Videogame.tsx";
+import GameBoy from "./GameBoy.tsx";
 import {CameraShake, ContactShadows, Float, Html} from "@react-three/drei";
 import * as THREE from "three";
 import {DoubleSide} from "three";
@@ -12,7 +12,7 @@ export default function MonitorBG() {
         <Canvas eventPrefix="client" shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
             <ambientLight color={"#dadacf"} intensity={1.2}/>
             <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
-                <Videogame position={[-1, -1, 0]} rotation={[.2, 0, 0]} scale={.25}/>
+                <GameBoy position={[-1, -1, 0]} rotation={[.2, 0, 0]} scale={.25}/>
                 <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, 0, 0]} rotation={[.2, 0, 0]}
                       material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
                     <Card/>
