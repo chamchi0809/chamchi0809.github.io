@@ -1,5 +1,5 @@
 ---
-import MonitorBG from '../components/MonitorBG';
+import IndexCanvas from '../components/IndexCanvas';
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
     <div class="w-full h-full">
-        <MonitorBG client:load>
+        <IndexCanvas client:load>
             <Fragment slot="fallback">
                 <div class="w-full h-full text-bright text-3xl flex flex-col gap-2 justify-center items-center">
                     <div class="loader">
@@ -19,7 +19,7 @@ import Layout from '../layouts/Layout.astro';
                     Loading 3D...
                 </div>
             </Fragment>
-        </MonitorBG>
+        </IndexCanvas>
     </div>
 </Layout>
 

@@ -7,9 +7,9 @@ import {Suspense, useState} from "react";
 
 const CAM_DISTANCE = 5;
 
-export default function MonitorBG() {
+export default function IndexCanvas() {
 
-    return <div className={"absolute inset-0"}>
+    return <div className={"absolute inset-0 z-50"}>
         <Canvas className={"animate-fadeIn"} resize={{debounce: 0}} eventPrefix={"client"} shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
             <Suspense fallback={<Loader/>}>
                 <ambientLight color={"#dadacf"} intensity={1.2}/>
