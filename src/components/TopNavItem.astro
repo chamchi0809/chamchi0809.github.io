@@ -11,10 +11,9 @@ const {pathname, label, icon} = Astro.props;
 const active = pathname === (Astro.url.pathname.replace(/\/+$/, '') || "/");
 ---
 
-<a href={pathname} class=`p-3 flex flex-row items-center gap-3 cursor-pointer rounded-full text-bright select-none transition-all
-hover:bg-bright hover:text-gray-950
-active:scale-105
-${active && 'bg-bright text-gray-950'}`>
+<a href={pathname} class=`px-4 flex flex-row items-center gap-3 cursor-pointer rounded-full text-bright select-none transition-all
+hover:bg-bright hover:text-gray-950 hover:scale-110
+${active && 'bg-bright text-gray-950 scale-110'}`>
     <slot/>
     <span>{label}</span>
 </a>

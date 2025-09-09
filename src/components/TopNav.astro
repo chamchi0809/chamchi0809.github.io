@@ -1,6 +1,6 @@
 ---
 import {type Icon as IconType, House, Cog} from "@lucide/astro";
-import SideNavItem from "./SideNavItem.astro";
+import TopNavItem from "./TopNavItem.astro";
 
 type MenuItem = {
     name: string;
@@ -22,18 +22,18 @@ const menuItems: MenuItem[] = [
 ];
 ---
 
-<div transition:name="header" class="w-70 h-full flex flex-col bg-[#1e1e1e] border-r border-bright/50 p-8 gap-9 z-40">
-    <div class="w-full flex flex-row items-center">
-        <div class="rounded-full w-12 h-12 bg-[url(/images/anvy_profile.png)] bg-center bg-cover"/>
+<nav transition:name="header" class="w-full flex flex-row justify-between border border-bright/50 rounded-full sticky top-4 px-5 py-3 gap-9 z-40 backdrop-blur-[2px]">
+    <div class="flex flex-row items-center">
+        <div class="rounded-full w-10 h-10 bg-[url(/images/anvy_profile.png)] bg-center bg-cover"/>
         <div class="ml-4">
             <h1 class="text-bright text-lg font-bold">Chamchi</h1>
             <p class="text-bright text-sm">Web & Game Dev</p>
         </div>
     </div>
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-row gap-6">
         {menuItems.map(item =>
-            <SideNavItem icon={item.icon} label={item.name} pathname={item.pathname}>
+            <TopNavItem icon={item.icon} label={item.name} pathname={item.pathname}>
                 <item.icon/>
-            </SideNavItem>)}
+            </TopNavItem>)}
     </div>
-</div>
+</nav>
