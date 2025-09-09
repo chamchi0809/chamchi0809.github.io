@@ -1,7 +1,7 @@
 ---
 import "../assets/app.css";
 import SideNav from "../components/SideNav.astro";
-import {ClientRouter, slide} from "astro:transitions";
+import {ClientRouter, fade} from "astro:transitions";
 ---
 <!doctype html>
 <html lang="en">
@@ -15,7 +15,7 @@ import {ClientRouter, slide} from "astro:transitions";
 </head>
 <body>
 <SideNav/>
-<main transition:animate={slide({duration: '0.4s'})}>
+<main transition:animate={fade({duration: '0.4s'})}>
     <slot/>
 </main>
 </body>
