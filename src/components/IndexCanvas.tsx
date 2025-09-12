@@ -13,15 +13,15 @@ export default function IndexCanvas() {
         <Canvas className={"animate-fadeIn"} resize={{debounce: 0}} eventPrefix={"client"} shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
             <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
                 <Suspense fallback={<Loader/>}>
-                    <GameBoy position={[-1, -1, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
-                    <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .3, 0]} rotation={[.2, 0, 0]}
+                    <GameBoy position={[-1, -.7, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
+                    <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .6, 0]} rotation={[.2, 0, 0]}
                           material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
                         <Card/>
                     </Html>
                 </Suspense>
             </Float>
             <ambientLight color={"#dadacf"} intensity={1.2}/>
-            <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={.5} far={10} resolution={256} color="#000000"/>
+            <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={2} far={10} resolution={256} color="#000000"/>
             <Rig/>
         </Canvas>
     </div>

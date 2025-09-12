@@ -3,6 +3,9 @@
 @theme {
     --color-bright: #dadacf;
     --animate-fadeIn: fadeIn 1s ease-in-out;
+    --font-thunder-hc: "ThunderHC", sans-serif;
+    --font-thunder-lc: "ThunderLC", sans-serif;
+    --font-kanit: "Kanit", sans-serif;
     
     @keyframes fadeIn {
         from { opacity: 0; }
@@ -58,6 +61,7 @@ License: none (public domain)
 
     body {
         line-height: 1;
+        font-family: "Pretendard", sans-serif;
     }
 
     ol, ul {

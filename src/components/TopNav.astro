@@ -1,5 +1,5 @@
 ---
-import {type Icon as IconType, House, Cog} from "@lucide/astro";
+import {type Icon as IconType, House, Image} from "@lucide/astro";
 import TopNavItem from "./TopNavItem.astro";
 
 type MenuItem = {
@@ -10,30 +10,34 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
     {
-        name: 'Home',
+        name: 'HOME',
         pathname: '/',
         icon: House,
     },
     {
-        name: 'Works',
+        name: 'WORKS',
         pathname: '/works',
-        icon: Cog,
+        icon: Image,
     },
 ];
 ---
 
-<nav transition:name="header" class="w-full flex flex-row justify-between border border-bright/25 rounded-full sticky top-4 px-5 py-3 gap-9 z-40 backdrop-blur-[2px]">
+<nav transition:name="header" class="w-full flex flex-row justify-between border border-bright/25 rounded-full sticky top-4 px-4 py-3 gap-9 z-40 backdrop-blur-[2px]">
     <div class="flex flex-row items-center">
         <div class="rounded-full w-10 h-10 bg-[url(/images/anvy_profile.png)] bg-center bg-cover"/>
         <div class="ml-4">
-            <h1 class="text-bright text-lg font-bold">Chamchi</h1>
-            <p class="text-bright text-sm">Web & Game Dev</p>
+            <span class="text-bright font-kanit text-2xl font-light tracking-narrow">
+                CHAMCHI
+            </span>
+            <span class="text-bright/80 font-kanit text-md">
+                / Dev
+            </span>
         </div>
     </div>
-    <div class="flex flex-row gap-6">
+    <div class="flex flex-row gap-4">
         {menuItems.map(item =>
             <TopNavItem icon={item.icon} label={item.name} pathname={item.pathname}>
-                <item.icon/>
+                <item.icon stroke-width="2" size="20"/>
             </TopNavItem>)}
     </div>
 </nav>

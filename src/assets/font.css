@@ -1,0 +1,262 @@
+/* Thunder Font Faces Generated */
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-BlackHC.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-BlackHCItalic.woff2") format("woff2");
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-BlackLC.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-BlackLCItalic.woff2") format("woff2");
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-BoldHC.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-BoldHCItalic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-BoldLC.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-BoldLCItalic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ExtraBoldHC.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ExtraBoldHCItalic.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ExtraBoldLC.woff2") format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ExtraBoldLCItalic.woff2") format("woff2");
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ExtraLightHC.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ExtraLightHCItalic.woff2") format("woff2");
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ExtraLightLC.woff2") format("woff2");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ExtraLightLCItalic.woff2") format("woff2");
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-HC.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-HCItalic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-LC.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-LCItalic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-LightHC.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-LightHCItalic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-LightLC.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-LightLCItalic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-MediumHC.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-MediumHCItalic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-MediumLC.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-MediumLCItalic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-SemiBoldHC.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-SemiBoldHCItalic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-SemiBoldLC.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-SemiBoldLCItalic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ThinHC.woff2") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderHC";
+    src: url("/fonts/thunder/Thunder-ThinHCItalic.woff2") format("woff2");
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ThinLC.woff2") format("woff2");
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "ThunderLC";
+    src: url("/fonts/thunder/Thunder-ThinLCItalic.woff2") format("woff2");
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
