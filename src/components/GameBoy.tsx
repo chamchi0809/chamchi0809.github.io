@@ -8,6 +8,9 @@ import * as THREE from 'three'
 import React, {type JSX, useState} from 'react'
 import {useCursor, useGLTF} from '@react-three/drei'
 import {type GLTF} from 'three-stdlib'
+import GameBoyScreen from "./GameBoyScreen.tsx";
+import {$currentIndex} from '../stores/gameboy.ts';
+import {works} from "../data/works.ts";
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -27,12 +30,27 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
     const {nodes, materials} = useGLTF('/models/GameBoy-transformed.glb') as unknown as GLTFResult
     return (
         <group {...props} dispose={null}>
+            <GameBoyScreen/>
             <mesh castShadow receiveShadow geometry={nodes.GameBoy.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            <Button>
-                <mesh castShadow receiveShadow geometry={nodes.A.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
-            </Button>
-            <Button>
+            <Button onClick={() => {
+                const index = $currentIndex.get();
+                if (index === 0) {
+                    $currentIndex.set(works.length - 1);
+                    return;
+                }
+                $currentIndex.set(index - 1);
+            }}>
                 <mesh castShadow receiveShadow geometry={nodes.B.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
+            </Button>
+            <Button onClick={() => {
+                const index = $currentIndex.get();
+                if (index === works.length - 1) {
+                    $currentIndex.set(0);
+                    return;
+                }
+                $currentIndex.set(index + 1);
+            }}>
+                <mesh castShadow receiveShadow geometry={nodes.A.geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
             </Button>
             <group>
                 <mesh castShadow receiveShadow geometry={nodes['+'].geometry} material={materials.lambert2SG} rotation={[Math.PI / 2, 0, 0]}/>
@@ -49,11 +67,19 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
 
 useGLTF.preload('/models/GameBoy-transformed.glb')
 
-const Button = ({children}: { children: React.ReactNode }) => {
+const Button = (
+    {
+        onClick,
+        children,
+    }: {
+        onClick?: () => void;
+        children: React.ReactNode;
+    }) => {
     const [hovered, setHovered] = useState(false);
     const [clicked, setClicked] = useState(false);
     useCursor(hovered)
     return <group
+        onClick={onClick}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => {
             setHovered(false);

@@ -61,7 +61,7 @@ License: none (public domain)
 
     body {
         line-height: 1;
-        font-family: "Pretendard", sans-serif;
+        font-family: "consolas", sans-serif;
     }
 
     ol, ul {

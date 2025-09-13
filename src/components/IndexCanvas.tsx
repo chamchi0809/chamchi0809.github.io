@@ -3,7 +3,7 @@ import GameBoy from "./GameBoy.tsx";
 import {CameraShake, ContactShadows, Float, Html, useProgress} from "@react-three/drei";
 import * as THREE from "three";
 import {DoubleSide} from "three";
-import {Suspense, useState} from "react";
+import {memo, Suspense, useState} from "react";
 
 const CAM_DISTANCE = 5;
 
@@ -31,10 +31,11 @@ const Rig = () => {
     const [vec] = useState(() => new THREE.Vector3());
     const {camera, pointer} = useThree();
     useFrame(() => camera.position.lerp(vec.set(pointer.x * CAM_DISTANCE / 10, pointer.y * CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
-    return <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
+    return <></>
+    // <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
 }
 
-const Card = () => {
+const Card = memo(() => {
     return <div className={"flex flex-col items-center relative rounded-[8px] bg-bright w-[300px] overflow-hidden"}>
         <div className={"w-full h-[120px] bg-[url(/images/anvy.png)] bg-cover bg-top"}/>
         <div className={"bg-[url(/images/anvy_profile.png)] bg-cover bg-center " +
@@ -46,16 +47,16 @@ const Card = () => {
                 <span className={"text-xl"}>Chamchi</span>
                 <span className={"text-sm text-gray-900"}>Jiwon Choi ∙ 🇰🇷 ∙ He/Him</span>
             </div>
-            <span className={"text-lg"}>Working as web dev / Game dev hobbyist</span>
+            <span className={"text-md leading-5 text-gray-900"}>Working as web dev / Game dev hobbyist</span>
             <div className={"flex flex-row flex-wrap gap-1.5"}>
-                <Tag icon={"/images/unity.svg"} text={"Unity"}/>
                 <Tag icon={"/images/react.svg"} text={"React"}/>
-                <Tag icon={"/images/typescript.svg"} text={"TS"}/>
                 <Tag icon={"/images/webgl.svg"} text={"WebGL"}/>
+                <Tag icon={"/images/typescript.svg"} text={"TS"}/>
+                <Tag icon={"/images/unity.svg"} text={"Unity"}/>
             </div>
         </div>
     </div>
-}
+})
 
 const QuickLinks = () => {
     return <div style={{
@@ -89,7 +90,7 @@ const Tag = (
         icon: string;
         text: string;
     }) => {
-    return <div style={{fontSize: 16, background: "#cccccc99", border: "2px solid #ccc", padding: "4px 8px", borderRadius: 8, display: "flex", flexDirection: "row", alignItems: "center", gap: 4}}>
+    return <div className={"text-gray-900 text-md py-1 px-2 border-1 rounded-full border-gray-500/50 bg-gray-400/20 flex flex-row items-center justify-center gap-1"}>
         <img src={icon} alt="" width={16}/>
         {text}
     </div>
