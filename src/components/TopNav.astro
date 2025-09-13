@@ -1,5 +1,5 @@
 ---
-import {type Icon as IconType, House, Image, CodeXml} from "@lucide/astro";
+import {type Icon as IconType, House, Image} from "@lucide/astro";
 import TopNavItem from "./TopNavItem.astro";
 
 type MenuItem = {
@@ -25,11 +25,16 @@ const menuItems: MenuItem[] = [
 <nav transition:name="header" class="w-full flex flex-row justify-between border border-bright/25 rounded-full sticky top-4 px-4 py-3 gap-9 z-40 backdrop-blur-[2px]">
     <div class="flex flex-row items-center">
         <div class="rounded-full w-10 h-10 bg-[url(/images/anvy_profile.png)] bg-center bg-cover"/>
-        <div class="ml-4 flex flex-row items-center gap-1 text-bright">
-            <span class="text-bright font-kanit text-2xl font-light tracking-narrow">
+        <div class="ml-4 flex flex-row items-end gap-[2px] text-bright font-mono font-light">
+            <span class="text-bright text-2xl leading-[0.8]">
                 CHAMCHI
             </span>
-            <CodeXml/>
+            <span class="text-bright/80 text-md">
+                /
+            </span>
+            <span class="text-bright/80 text-md">
+                DEV
+            </span>
         </div>
     </div>
     <div class="flex flex-row gap-4">
