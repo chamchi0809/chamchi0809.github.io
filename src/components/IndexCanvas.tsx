@@ -1,123 +1,283 @@
-import {Canvas, useFrame, useThree} from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import GameBoy from "./GameBoy.tsx";
-import {CameraShake, ContactShadows, Float, Html, useProgress} from "@react-three/drei";
+import {
+    CameraShake,
+    ContactShadows,
+    Float,
+    Html,
+    useProgress,
+} from "@react-three/drei";
 import * as THREE from "three";
-import {DoubleSide} from "three";
-import {memo, Suspense, useState} from "react";
+import { DoubleSide } from "three";
+import { memo, Suspense, useMemo, useRef, useState } from "react";
 
 const CAM_DISTANCE = 5;
 
 export default function IndexCanvas() {
+    const [zoomed, setZoomed] = useState(false);
 
-    return <div className={"absolute inset-0 z-50"}>
-        <Canvas className={"animate-fadeIn"} resize={{debounce: 0}} eventPrefix={"client"} shadows dpr={[1, 2]} style={{width: '100%', height: '100%'}} camera={[0, 0, CAM_DISTANCE, {fov: 50}] as any}>
-            <Float rotationIntensity={1.5} floatIntensity={1.5} speed={3}>
-                <Suspense fallback={<Loader/>}>
-                    <GameBoy position={[-1, -.7, -.5]} rotation={[.2, 0, 0]} scale={.25}/>
-                    <Html occlude={"raycast"} transform castShadow receiveShadow scale={.25} position={[1, .6, 0]} rotation={[.2, 0, 0]}
-                          material={<meshStandardMaterial side={DoubleSide} opacity={.1}/>}>
-                        <Card/>
-                    </Html>
-                </Suspense>
-            </Float>
-            <ambientLight color={"#dadacf"} intensity={1.2}/>
-            <ContactShadows position={[0, -1.2, 0]} opacity={1} scale={10} blur={2} far={10} resolution={256} color="#000000"/>
-            <Rig/>
-        </Canvas>
-    </div>
+    return (
+        <div className={"absolute inset-0 z-50"}>
+            <Canvas
+                className={"animate-fadeIn"}
+                resize={{ debounce: 0 }}
+                eventPrefix={"client"}
+                shadows
+                dpr={[1, 2]}
+                style={{ width: "100%", height: "100%" }}
+                camera={[0, 0, CAM_DISTANCE, { fov: 50 }] as any}
+                onPointerMissed={() => setZoomed(false)}
+            >
+                <Float
+                    rotationIntensity={zoomed ? 0 : 1.5}
+                    floatIntensity={zoomed ? 0 : 1.5}
+                    speed={3}
+                >
+                    <Suspense fallback={<Loader />}>
+                        <AnimatedGameBoy
+                            zoomed={zoomed}
+                            onZoom={() => setZoomed(true)}
+                        />
+                        <Html
+                            occlude={"raycast"}
+                            transform
+                            castShadow
+                            receiveShadow
+                            scale={0.25}
+                            position={[1, 0.6, 0]}
+                            rotation={[0.2, 0, 0]}
+                            material={
+                                <meshStandardMaterial
+                                    side={DoubleSide}
+                                    opacity={0.1}
+                                />
+                            }
+                        >
+                            <Card />
+                        </Html>
+                    </Suspense>
+                </Float>
+                <ambientLight color={"#dadacf"} intensity={1.2} />
+                <ContactShadows
+                    position={[0, -1.2, 0]}
+                    opacity={1}
+                    scale={10}
+                    blur={2}
+                    far={10}
+                    resolution={256}
+                    color="#000000"
+                />
+                <Rig />
+            </Canvas>
+        </div>
+    );
 }
+
+const AnimatedGameBoy = ({
+    zoomed,
+    onZoom,
+}: {
+    zoomed: boolean;
+    onZoom: () => void;
+}) => {
+    const groupRef = useRef<THREE.Group>(null!);
+    const targets = useMemo(
+        () => ({
+            zoomed: {
+                pos: new THREE.Vector3(0, -1.4, 1),
+                rot: new THREE.Euler(0, 0, 0),
+                scale: 0.3,
+            },
+            default: {
+                pos: new THREE.Vector3(-1, -0.7, -0.5),
+                rot: new THREE.Euler(0.2, 0, 0),
+                scale: 0.25,
+            },
+        }),
+        [],
+    );
+
+    useFrame(() => {
+        if (!groupRef.current) return;
+        const t = zoomed ? targets.zoomed : targets.default;
+        groupRef.current.position.lerp(t.pos, 0.1);
+        groupRef.current.rotation.x = THREE.MathUtils.lerp(
+            groupRef.current.rotation.x,
+            t.rot.x,
+            0.1,
+        );
+        groupRef.current.rotation.y = THREE.MathUtils.lerp(
+            groupRef.current.rotation.y,
+            t.rot.y,
+            0.1,
+        );
+        groupRef.current.rotation.z = THREE.MathUtils.lerp(
+            groupRef.current.rotation.z,
+            t.rot.z,
+            0.1,
+        );
+        const s = THREE.MathUtils.lerp(groupRef.current.scale.x, t.scale, 0.1);
+        groupRef.current.scale.set(s, s, s);
+    });
+
+    return (
+        <group
+            ref={groupRef}
+            position={[-1, -0.7, -0.5]}
+            rotation={[0.2, 0, 0]}
+            scale={0.25}
+            onClick={(e) => {
+                e.stopPropagation();
+                if (!zoomed) onZoom();
+            }}
+        >
+            <GameBoy />
+        </group>
+    );
+};
 
 const Rig = () => {
     const [vec] = useState(() => new THREE.Vector3());
-    const {camera, pointer} = useThree();
-    useFrame(() => camera.position.lerp(vec.set(pointer.x * CAM_DISTANCE / 10, pointer.y * CAM_DISTANCE / 10, CAM_DISTANCE), 0.05))
-    return <></>
+    const { camera, pointer } = useThree();
+    useFrame(() =>
+        camera.position.lerp(
+            vec.set(
+                (pointer.x * CAM_DISTANCE) / 10,
+                (pointer.y * CAM_DISTANCE) / 10,
+                CAM_DISTANCE,
+            ),
+            0.05,
+        ),
+    );
+    return <></>;
     // <CameraShake maxYaw={0.01} maxPitch={0.01} maxRoll={0.01} yawFrequency={0.5} pitchFrequency={0.5} rollFrequency={0.4}/>
-}
+};
 
 const Card = memo(() => {
-    return <div className={"flex flex-col items-center relative rounded-[8px] bg-bright w-[300px] overflow-hidden"}>
-        <div className={"w-full h-[120px] bg-[url(/images/anvy.png)] bg-cover bg-top"}/>
-        <div className={"bg-[url(/images/anvy_profile.png)] bg-cover bg-center " +
-            "rounded-full " +
-            "absolute w-[80px] h-[80px] left-[12px] top-[80px]"}/>
-        <QuickLinks/>
-        <div className={"flex flex-col pt-[56px] px-[12px] pb-[16px] bg-bright w-full gap-[16px]"}>
-            <div className={"flex flex-col gap-1"}>
-                <span className={"text-xl"}>Chamchi</span>
-                <span className={"text-sm text-gray-900"}>Jiwon Choi ∙ 🇰🇷 ∙ He/Him</span>
-            </div>
-            <span className={"text-md leading-5 text-gray-900"}>Working as web dev / Game dev hobbyist</span>
-            <div className={"flex flex-row flex-wrap gap-1.5"}>
-                <Tag icon={"/images/react.svg"} text={"React"}/>
-                <Tag icon={"/images/webgl.svg"} text={"WebGL"}/>
-                <Tag icon={"/images/typescript.svg"} text={"TS"}/>
-                <Tag icon={"/images/unity.svg"} text={"Unity"}/>
+    return (
+        <div
+            className={
+                "flex flex-col items-center relative rounded-[8px] bg-bright w-[300px] overflow-hidden"
+            }
+        >
+            <div
+                className={
+                    "w-full h-[120px] bg-[url(/images/anvy.png)] bg-cover bg-top"
+                }
+            />
+            <div
+                className={
+                    "bg-[url(/images/anvy_profile.png)] bg-cover bg-center " +
+                    "rounded-full " +
+                    "absolute w-[80px] h-[80px] left-[12px] top-[80px]"
+                }
+            />
+            <QuickLinks />
+            <div
+                className={
+                    "flex flex-col pt-[56px] px-[12px] pb-[16px] bg-bright w-full gap-[16px]"
+                }
+            >
+                <div className={"flex flex-col gap-1"}>
+                    <span className={"text-xl"}>Chamchi</span>
+                    <span className={"text-sm text-gray-900"}>
+                        Jiwon Choi ∙ 🇰🇷 ∙ He/Him
+                    </span>
+                </div>
+                <span className={"text-md leading-5 text-gray-900"}>
+                    Working as web dev / Game dev hobbyist
+                </span>
+                <div className={"flex flex-row flex-wrap gap-1.5"}>
+                    <Tag icon={"/images/react.svg"} text={"React"} />
+                    <Tag icon={"/images/webgl.svg"} text={"WebGL"} />
+                    <Tag icon={"/images/typescript.svg"} text={"TS"} />
+                    <Tag icon={"/images/unity.svg"} text={"Unity"} />
+                </div>
             </div>
         </div>
-    </div>
-})
+    );
+});
 
 const QuickLinks = () => {
-    return <div style={{
-        position: "absolute", right: 8, top: 128,
-        background: "#cccccc99", border: "2px solid #ccc", padding: "4px", borderRadius: 8, display: "flex", flexDirection: "row", alignItems: "center", gap: 4
-    }}>
-        <QuickLink link={"https://github.com/chamchi0809"} icon={"/images/github.svg"}/>
-        <QuickLink link={"https://seoshi1234.itch.io/"} icon={"/images/itchio.svg"}/>
-    </div>
-}
+    return (
+        <div
+            style={{
+                position: "absolute",
+                right: 8,
+                top: 128,
+                background: "#cccccc99",
+                border: "2px solid #ccc",
+                padding: "4px",
+                borderRadius: 8,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 4,
+            }}
+        >
+            <QuickLink
+                link={"https://github.com/chamchi0809"}
+                icon={"/images/github.svg"}
+            />
+            <QuickLink
+                link={"https://seoshi1234.itch.io/"}
+                icon={"/images/itchio.svg"}
+            />
+        </div>
+    );
+};
 
-const QuickLink = (
-    {
-        link,
-        icon,
-    }: {
-        link: string;
-        icon: string;
-    }) => {
+const QuickLink = ({ link, icon }: { link: string; icon: string }) => {
+    return (
+        <div
+            className={`rounded-md bg-center bg-size-[16px] bg-no-repeat w-5 h-5 cursor-pointer hover:bg-gray-400 `}
+            onClick={() => window.open(link, "_blank")}
+            style={{ backgroundImage: `url('${icon}')` }}
+        />
+    );
+};
 
-    return <div className={`rounded-md bg-center bg-size-[16px] bg-no-repeat w-5 h-5 cursor-pointer hover:bg-gray-400 `}
-                onClick={() => window.open(link, "_blank")}
-                style={{backgroundImage: `url('${icon}')`}}/>
-}
-
-const Tag = (
-    {
-        icon,
-        text,
-    }: {
-        icon: string;
-        text: string;
-    }) => {
-    return <div className={"text-gray-900 text-md py-1 px-2 border-1 rounded-full border-gray-500/50 bg-gray-400/20 flex flex-row items-center justify-center gap-1"}>
-        <img src={icon} alt="" width={16}/>
-        {text}
-    </div>
-}
+const Tag = ({ icon, text }: { icon: string; text: string }) => {
+    return (
+        <div
+            className={
+                "text-gray-900 text-md py-1 px-2 border-1 rounded-full border-gray-500/50 bg-gray-400/20 flex flex-row items-center justify-center gap-1"
+            }
+        >
+            <img src={icon} alt="" width={16} />
+            {text}
+        </div>
+    );
+};
 
 function Loader() {
-    const {progress} = useProgress()
-    return <Html occlude={"raycast"} transform center scale={0.25}>
-        <div
-            className="mx-auto w-[500px] h-[200px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl"
-        >
-            <div className="bg-[#333] flex items-center p-[5px] text-whitec relative">
-                <div className="flex absolute left-3">
-                    <span className="h-3.5 w-3.5 bg-[#ff5b50] rounded-xl mr-2"></span>
-                    <span className="h-3.5 w-3.5 bg-[#fbbc33] rounded-xl mr-2"></span>
-                    <span className="h-3.5 w-3.5 bg-[#21c940] rounded-xl"></span>
+    const { progress } = useProgress();
+    return (
+        <Html occlude={"raycast"} transform center scale={0.25}>
+            <div className="mx-auto w-[500px] h-[200px] bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl">
+                <div className="bg-[#333] flex items-center p-[5px] text-whitec relative">
+                    <div className="flex absolute left-3">
+                        <span className="h-3.5 w-3.5 bg-[#ff5b50] rounded-xl mr-2"></span>
+                        <span className="h-3.5 w-3.5 bg-[#fbbc33] rounded-xl mr-2"></span>
+                        <span className="h-3.5 w-3.5 bg-[#21c940] rounded-xl"></span>
+                    </div>
+                    <div className="flex-1 text-center text-white">status</div>
                 </div>
-                <div className="flex-1 text-center text-white">status</div>
-            </div>
-            <div className="text-bright text-3xl font-bold flex flex-col items-center justify-center h-[150px]">
-                <div>
-                    <span className="mr-2">{progress}% loaded</span>
-                    <span className="animate-[ping_1.5s_0.5s_ease-in-out_infinite]">.</span>
-                    <span className="animate-[ping_1.5s_0.7s_ease-in-out_infinite]">.</span>
-                    <span className="animate-[ping_1.5s_0.9s_ease-in-out_infinite]">.</span>
+                <div className="text-bright text-3xl font-bold flex flex-col items-center justify-center h-[150px]">
+                    <div>
+                        <span className="mr-2">{progress}% loaded</span>
+                        <span className="animate-[ping_1.5s_0.5s_ease-in-out_infinite]">
+                            .
+                        </span>
+                        <span className="animate-[ping_1.5s_0.7s_ease-in-out_infinite]">
+                            .
+                        </span>
+                        <span className="animate-[ping_1.5s_0.9s_ease-in-out_infinite]">
+                            .
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Html>
+        </Html>
+    );
 }

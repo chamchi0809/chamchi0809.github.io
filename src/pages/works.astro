@@ -1,23 +1,86 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import WorksHero from "../components/works/WorksHero.tsx";
+import Marquee from "../components/works/Marquee.tsx";
+import FeaturedCard from "../components/works/FeaturedCard.tsx";
+import WorkCard from "../components/works/WorkCard.tsx";
+import SectionLabel from "../components/works/SectionLabel.tsx";
+import { works } from "../data/works.ts";
+
+const featured = works[0];
+const rest = works.slice(1);
 ---
+
 <Layout>
-    <h1>My Works</h1>
-    <p>This is the works page.</p>
+    <div class="w-full flex flex-col gap-20 pb-24">
+        <WorksHero
+            eyebrow="chamchi"
+            title="Works"
+            year="2020 — 2026"
+            location="SEOUL · KR"
+            client:load
+        />
+
+        <Marquee
+            items={[
+                "WebGL",
+                "Unity",
+                "React",
+                "Shaders",
+                "Games",
+                "Toys",
+                "Tools",
+                "Pixels",
+            ]}
+            separator="✦"
+            speed={5}
+            client:visible
+        />
+
+        <FeaturedCard
+            title={featured.title}
+            description={featured.description}
+            imageUrl={featured.imageUrl}
+            url={featured.url}
+            tags={featured.tags}
+            year={featured.year}
+            role={featured.role}
+            accent={featured.accent}
+            eyebrow="FEATURED / 01"
+            index={0}
+            client:visible
+        />
+
+        <div class="w-full flex flex-col gap-8">
+            <SectionLabel
+                title="More Works"
+                count={rest.length}
+                client:visible
+            />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {
+                    rest.map((work, i) => (
+                        <WorkCard
+                            title={work.title}
+                            description={work.description}
+                            imageUrl={work.imageUrl}
+                            url={work.url}
+                            tags={work.tags}
+                            year={work.year}
+                            role={work.role}
+                            accent={work.accent}
+                            index={i + 1}
+                            client:visible
+                        />
+                    ))
+                }
+            </div>
+        </div>
+
+        <footer
+            class="w-full flex items-center justify-between pt-6 border-t border-bright/10 text-[10px] font-mono uppercase tracking-[0.3em] text-bright/40"
+        >
+            <span>chamchi / dev</span>
+        </footer>
+    </div>
 </Layout>
-
-<style>
-    h1 {
-        font-family: 'BOTW', sans-serif;
-        font-size: 3rem;
-        text-align: center;
-        margin-top: 2rem;
-    }
-
-    p {
-        font-family: 'BOTW', sans-serif;
-        font-size: 1.5rem;
-        text-align: center;
-        margin-top: 1rem;
-    }
-</style>
