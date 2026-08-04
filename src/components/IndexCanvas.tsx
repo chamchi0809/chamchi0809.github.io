@@ -5,13 +5,41 @@ import {
     ContactShadows,
     Float,
     Html,
+    Text3D,
     useProgress,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { DoubleSide } from "three";
 import { memo, Suspense, useMemo, useRef, useState } from "react";
+import type { GroupProps } from "@react-three/fiber";
 
 const CAM_DISTANCE = 5;
+
+const SPHERE_R = 0.3;
+const FONT_URL = "/fonts/helvetiker_bold.typeface.json";
+// Label/icon offsets were tuned at r = 0.45; scale them with the radius.
+const FACE_SCALE = SPHERE_R / 0.45;
+
+// Column hugging the card's right edge (card spans x 0.06..1.94, centre y 0.6).
+const COLUMN_X = 1.94 + 0.11 + SPHERE_R;
+// Centred on the card's y 0.6, one radius + 0.15 clearance apart.
+const LINKS = [
+    { url: "/pixi-GI", label: "pixi-GI", color: "#7b10b0", y: 1.0 },
+    { url: "/three-rc-25d", label: "three-rc-25d", color: "#cf0e22", y: 0.2 },
+];
+
+// ponytail: 3-step DataTexture is the whole toon ramp — no gradient png to ship
+const TOON_RAMP = (() => {
+    const tex = new THREE.DataTexture(
+        new Uint8Array([90, 160, 220, 255]),
+        4,
+        1,
+        THREE.RedFormat,
+    );
+    tex.minFilter = tex.magFilter = THREE.NearestFilter;
+    tex.needsUpdate = true;
+    return tex;
+})();
 
 export default function IndexCanvas() {
     const [zoomed, setZoomed] = useState(false);
@@ -56,8 +84,16 @@ export default function IndexCanvas() {
                             <Card />
                         </Html>
                     </Suspense>
+                    {/* own Suspense: the font must not block the GameBoy Loader */}
+                    <Suspense fallback={null}>
+                        {LINKS.map((l) => (
+                            <LinkSphere key={l.url} {...l} />
+                        ))}
+                    </Suspense>
                 </Float>
                 <ambientLight color={"#dadacf"} intensity={1.2} />
+                {/* ponytail: toon bands need one hard light, tune intensity here */}
+                <directionalLight position={[3, 4, 5]} intensity={2.5} />
                 <ContactShadows
                     position={[0, -1.2, 0]}
                     opacity={1}
@@ -72,6 +108,110 @@ export default function IndexCanvas() {
         </div>
     );
 }
+
+const LinkSphere = ({
+    url,
+    label,
+    color,
+    y,
+}: (typeof LINKS)[number]) => {
+    const [hovered, setHovered] = useState(false);
+    const groupRef = useRef<THREE.Group>(null!);
+
+    // ponytail: only the hover pop is animated — the drift comes from the
+    // parent <Float>, which the GameBoy and card already share.
+    useFrame(() => {
+        const g = groupRef.current;
+        if (!g) return;
+        g.scale.setScalar(
+            THREE.MathUtils.lerp(g.scale.x, hovered ? 1.12 : 1, 0.12),
+        );
+    });
+
+    return (
+        <group
+            ref={groupRef}
+            position={[COLUMN_X, y, 0]}
+            onClick={(e) => {
+                e.stopPropagation();
+                window.location.href = url;
+            }}
+            onPointerOver={(e) => {
+                e.stopPropagation();
+                setHovered(true);
+                document.body.style.cursor = "pointer";
+            }}
+            onPointerOut={() => {
+                setHovered(false);
+                document.body.style.cursor = "auto";
+            }}
+        >
+            <mesh castShadow>
+                <sphereGeometry args={[SPHERE_R, 48, 48]} />
+                <meshToonMaterial color={color} gradientMap={TOON_RAMP} />
+            </mesh>
+            {/* 양각: shallow relief in the body colour, read via the edge outline */}
+            <group position={[0, 0, SPHERE_R - 0.01]} scale={FACE_SCALE}>
+                <Text3D
+                    ref={centerAndOutline}
+                    font={FONT_URL}
+                    size={0.075}
+                    height={0.04}
+                    curveSegments={4}
+                    bevelEnabled
+                    bevelThickness={0.005}
+                    bevelSize={0.004}
+                    bevelSegments={2}
+                    position={[0, -0.08, 0]}
+                >
+                    {label}
+                    <meshToonMaterial color={color} gradientMap={TOON_RAMP} />
+                </Text3D>
+                <LinkArrow color={color} position={[0, 0.07, 0]} />
+            </group>
+        </group>
+    );
+};
+
+// ponytail: EdgesGeometry lines, not a postprocessing Outline pass — 1px hairline
+// and no EffectComposer. Swap to postprocessing Outline if you need thick strokes.
+const OUTLINE_MAT = new THREE.LineBasicMaterial({ color: "#2c2c2c" });
+const outline = (mesh: THREE.Mesh | null) => {
+    if (!mesh?.geometry) return;
+    mesh.add(
+        new THREE.LineSegments(
+            new THREE.EdgesGeometry(mesh.geometry, 30),
+            OUTLINE_MAT,
+        ),
+    );
+};
+
+/** Centers a Text3D geometry and outlines it, once on mount. */
+const centerAndOutline = (mesh: THREE.Mesh | null) => {
+    if (!mesh?.geometry) return;
+    mesh.geometry.computeBoundingBox();
+    const b = mesh.geometry.boundingBox!;
+    mesh.geometry.translate(-(b.max.x + b.min.x) / 2, -(b.max.y + b.min.y) / 2, 0);
+    outline(mesh);
+};
+
+/** Extruded "↗" — 3 boxes beat shipping an SVG + SVGLoader. */
+const LinkArrow = ({ color, ...props }: GroupProps & { color: string }) => (
+    <group {...props}>
+        <mesh ref={outline} rotation={[0, 0, Math.PI / 4]}>
+            <boxGeometry args={[0.15, 0.022, 0.04]} />
+            <meshToonMaterial color={color} gradientMap={TOON_RAMP} />
+        </mesh>
+        <mesh ref={outline} position={[0.034, 0.053, 0]}>
+            <boxGeometry args={[0.066, 0.022, 0.04]} />
+            <meshToonMaterial color={color} gradientMap={TOON_RAMP} />
+        </mesh>
+        <mesh ref={outline} position={[0.056, 0.031, 0]}>
+            <boxGeometry args={[0.022, 0.066, 0.04]} />
+            <meshToonMaterial color={color} gradientMap={TOON_RAMP} />
+        </mesh>
+    </group>
+);
 
 const AnimatedGameBoy = ({
     zoomed,
